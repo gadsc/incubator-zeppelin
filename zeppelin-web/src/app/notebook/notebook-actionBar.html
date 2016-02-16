@@ -87,6 +87,13 @@ limitations under the License.
                 tooltip-placement="bottom" tooltip="Version control">
           <i class="fa fa-file-code-o"></i>
         </button>
+        <button type="button"
+                class="btn btn-default btn-xs"
+                ng-hide="viewOnly"
+                tooltip-placement="bottom" tooltip="Send by Email"
+                onclick="sendMail()">
+        	<i class="fa fa-envelope"></i>
+        </button>
     </span>
 
 <!-- put the delete action by itself for your protection -->
