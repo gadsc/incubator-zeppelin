@@ -11,9 +11,13 @@ function getGraphsAndTablesFromNote() {
 }
 
 function sendMail() {
+  alert(graphsAndTablesFromNote);
+  getGraphsAndTablesFromNote();
+  alert(graphsAndTablesFromNote);
 	jQuery.ajax({
 		type : "POST",
 		url : "http://localhost:8080/api/sendMail",
-		data : jQuery(graphsAndTablesFromNote).serialize()
+		contentType: "application/html",
+		data : graphsAndTablesFromNote
 	});
 }

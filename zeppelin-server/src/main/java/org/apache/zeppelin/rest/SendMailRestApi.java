@@ -17,8 +17,8 @@
 
 package org.apache.zeppelin.rest;
 
-import java.io.IOException;
-
+import javax.inject.Inject;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -27,40 +27,54 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.zeppelin.server.JsonResponse;
+import org.apache.zeppelin.service.PDFService;
+import org.apache.zeppelin.service.SendMailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * Zeppelin security rest api endpoint.
- *
  */
 @Path("/sendMail")
-@Produces("application/json")
 public class SendMailRestApi {
-  /*** Required by Swagger.*/
+  /**
+   * Required by Swagger.
+  */
   private static final Logger LOGGER = LoggerFactory.getLogger(SendMailRestApi.class);
 
+  @Inject
+  private PDFService pdfService;
+  
+  @Inject
+  private SendMailService sendMailService;
+
   /**
-    * Get ticket Returns username & ticket for anonymous access, username is
-    * always anonymous. After getting this ticket, access through websockets
-    * become safe
-    *
-    * @return 200 response
+   * Get ticket Returns username & ticket for anonymous access, username is
+   * always anonymous. After getting this ticket, access through websockets
+   * become safe
+   *
+   * @return 200 response
   */
   @POST
-  public Response cloneNote(String html) throws IOException, IllegalArgumentException {
+  @Consumes("application/html")
+  @Produces("application/pdf")
+  public Response cloneNote(String html) {
     LOGGER.info(html);
+    byte[] pdfAsByteArray = pdfService.createPdfFromHtmlAsByteArray(html);
+    sendMailService.sendMail(pdfAsByteArray);
     return new JsonResponse<>(Status.OK).build();
   }
+
   /**
-    * Get ticket Returns username & ticket for anonymous access, username is
-    * always anonymous. After getting this ticket, access through websockets
-    * become safe
-    *
-    * @return 200 response
+   * Get ticket Returns username & ticket for anonymous access, username is
+   * always anonymous. After getting this ticket, access through websockets
+   * become safe
+   *
+   * @return 200 response
   */
   @GET
   @Path("status")
+  @Produces("application/json")
   public Response statusOk() {
     return new JsonResponse<>(Status.OK).build();
   }

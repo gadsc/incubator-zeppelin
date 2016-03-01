@@ -279,6 +279,22 @@
       <groupId>org.apache.shiro</groupId>
       <artifactId>shiro-web</artifactId>
     </dependency>
+
+    <!-- Itext PDF -->
+    <dependency>
+      <groupId>com.lowagie</groupId>
+      <artifactId>itext</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>dom4j</groupId>
+          <artifactId>dom4j</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>xml-apis</groupId>
+          <artifactId>xml-apis</artifactId>
+        </exclusion>
+      </exclusions>
+     </dependency>
   </dependencies>
 
   <build>
