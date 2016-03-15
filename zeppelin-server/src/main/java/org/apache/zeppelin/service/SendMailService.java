@@ -54,15 +54,15 @@ public class SendMailService {
     Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
       @Override
       protected PasswordAuthentication getPasswordAuthentication() {
-        return new PasswordAuthentication("teste@gmail.com", "senha");
+        return new PasswordAuthentication("email@gmail.com", "password");
       }
     });
 
     try {
       Message message = new MimeMessage(session);
-      message.setFrom(new InternetAddress("teste@gmail.com"));
+      message.setFrom(new InternetAddress("email@gmail.com"));
       message.setRecipients(Message.RecipientType.TO,
-        InternetAddress.parse("teste@gmail.com"));
+        InternetAddress.parse("email@gmail.com"));
       message.setSubject("Testing Subject");
       MimeBodyPart attachment = new MimeBodyPart();
       ByteArrayDataSource src = new ByteArrayDataSource(pdf, "application/pdf");

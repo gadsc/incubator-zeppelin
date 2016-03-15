@@ -42,11 +42,11 @@ public class SendMailRestApi {
   */
   private static final Logger LOGGER = LoggerFactory.getLogger(SendMailRestApi.class);
 
-  @Inject
-  private PDFService pdfService;
+//  @Inject
+//  private PDFService pdfService;
   
-  @Inject
-  private SendMailService sendMailService;
+//  @Inject
+//  private SendMailService sendMailService;
 
   /**
    * Get ticket Returns username & ticket for anonymous access, username is
@@ -60,8 +60,8 @@ public class SendMailRestApi {
   @Produces("application/pdf")
   public Response cloneNote(String html) {
     LOGGER.info(html);
-    byte[] pdfAsByteArray = pdfService.createPdfFromHtmlAsByteArray(html);
-    sendMailService.sendMail(pdfAsByteArray);
+    byte[] pdfAsByteArray = new PDFService().createPdfFromHtmlAsByteArray(html);
+    new SendMailService().sendMail(pdfAsByteArray);
     return new JsonResponse<>(Status.OK).build();
   }
 
